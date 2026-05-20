@@ -1,3 +1,4 @@
+import 'package:dijital_kutuphane/homePage.dart';
 import 'package:dijital_kutuphane/register.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
           child: Form(
             key: _formKey,
             child: Column(
@@ -118,8 +118,10 @@ class _LoginPageState extends State<LoginPage> {
                       // API bağlantısı ve login işlemleri burada yapılacak
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Giriş yapılıyor...')),
+
                       );
                     }
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
