@@ -76,6 +76,98 @@ final List<Map<String, String>> trendBooks = [
   }
 ];
 
+// --- YENİ: KİTAP DETAY SAYFASI ---
+class BookDetailPage extends StatelessWidget {
+  final String title;
+  final String author;
+  final String image;
+  final String? price;
+
+  const BookDetailPage({
+    super.key,
+    required this.title,
+    required this.author,
+    required this.image,
+    this.price,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(image, height: 280, width: 190, fit: BoxFit.cover),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+            const SizedBox(height: 6),
+            Text(author, style: const TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center),
+            const SizedBox(height: 15),
+            if (price != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(color: Colors.deepPurple.shade50, borderRadius: BorderRadius.circular(20)),
+                child: Text(price!, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+              ),
+            const SizedBox(height: 25),
+            const Divider(),
+            const SizedBox(height: 15),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text("Kitap Açıklaması", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Bu eser, kütüphanemizin en seçkin parçalarından biridir. Dijital yayın formatında hemen okumaya başlayabilir veya kiralama seçeneklerini değerlendirebilirsiniz. Keyifli okumalar dileriz.",
+              style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.5),
+            ),
+            const SizedBox(height: 35),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(Icons.bookmark_add_outlined),
+                    label: const Text("Listeme Ekle"),
+                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurple,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    child: Text(price != null ? "Satın Al" : "Okumaya Başla"),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 // --- 1. GİRİŞ SAYFASI ---
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -173,7 +265,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-// --- 2. YENİ: KAYIT OL SAYFASI ---
+// --- 2. KAYIT OL SAYFASI ---
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -296,7 +388,7 @@ class _MainNavigationHolderState extends State<MainNavigationHolder> {
   }
 }
 
-// --- 4. MÜŞTERİ ANA SAYFA ---
+// --- 4. MÜŞTERİ ANA SAYFA (TIKLAMA ÖZELLİĞİ EKLENDİ) ---
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
 
@@ -377,29 +469,43 @@ class _UserHomeState extends State<UserHome> {
                 itemCount: featuredBooks.length,
                 itemBuilder: (context, index) {
                   final book = featuredBooks[index];
-                  return Container(
-                    width: 130,
-                    margin: const EdgeInsets.only(right: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.network(book["image"]!, fit: BoxFit.cover, width: double.infinity),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BookDetailPage(
+                            title: book["title"]!,
+                            author: book["author"]!,
+                            image: book["image"]!,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(book["title"]!, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
-                        Text(book["author"]!, style: const TextStyle(color: Colors.grey, fontSize: 12), maxLines: 1),
-                      ],
+                      );
+                    },
+                    child: Container(
+                      width: 130,
+                      margin: const EdgeInsets.only(right: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(book["image"]!, fit: BoxFit.cover, width: double.infinity),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(book["title"]!, style: const TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis),
+                          Text(book["author"]!, style: const TextStyle(color: Colors.grey, fontSize: 12), maxLines: 1),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
 
-            // En Çok Okunanlar (Dikey Liste - Eleman Sayısı Artırıldı)
+            // En Çok Okunanlar (Dikey Liste)
             const Padding(
               padding: EdgeInsets.only(left: 16, top: 20, bottom: 12),
               child: Text("En Çok Okunanlar", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -411,31 +517,46 @@ class _UserHomeState extends State<UserHome> {
               itemCount: trendBooks.length,
               itemBuilder: (context, index) {
                 final book = trendBooks[index];
-                return Card(
-                  margin: const EdgeInsets.all(12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(book["image"]!, width: 60, height: 80, fit: BoxFit.cover),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BookDetailPage(
+                          title: book["title"]!,
+                          author: book["author"]!,
+                          image: book["image"]!,
+                          price: book["price"],
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(book["title"]!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                              Text(book["author"]!, style: const TextStyle(color: Colors.grey, fontSize: 13)),
-                              const SizedBox(height: 8),
-                              Text(book["price"]!, style: TextStyle(color: Colors.deepPurple.shade700, fontWeight: FontWeight.bold)),
-                            ],
+                      ),
+                    );
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.all(12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(book["image"]!, width: 60, height: 80, fit: BoxFit.cover),
                           ),
-                        ),
-                        IconButton(icon: const Icon(Icons.add_shopping_cart_rounded, color: Colors.deepPurple), onPressed: () {}),
-                      ],
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(book["title"]!, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                                Text(book["author"]!, style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                                const SizedBox(height: 8),
+                                Text(book["price"]!, style: TextStyle(color: Colors.deepPurple.shade700, fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                          IconButton(icon: const Icon(Icons.add_shopping_cart_rounded, color: Colors.deepPurple), onPressed: () {}),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -448,7 +569,7 @@ class _UserHomeState extends State<UserHome> {
   }
 }
 
-// --- 5. GÜNCELLENDİ: MÜŞTERİ KİTAPLIĞIM SAYFASI ---
+// --- 5. MÜŞTERİ KİTAPLIĞIM SAYFASI (TIKLAMA ÖZELLİĞİ EKLENDİ) ---
 class MyLibrary extends StatelessWidget {
   const MyLibrary({super.key});
 
@@ -476,23 +597,23 @@ class MyLibrary extends StatelessWidget {
             ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                _buildLibraryBookItem("Nutuk", "M. Kemal Atatürk", 0.65, "Sayfa 240 / 400", "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"),
-                _buildLibraryBookItem("Sapiens", "Yuval Noah Harari", 0.15, "Sayfa 45 / 420", "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?q=80&w=300&auto=format&fit=crop"),
+                _buildLibraryBookItem(context, "Nutuk", "M. Kemal Atatürk", 0.65, "Sayfa 240 / 400", "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"),
+                _buildLibraryBookItem(context, "Sapiens", "Yuval Noah Harari", 0.15, "Sayfa 45 / 420", "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?q=80&w=300&auto=format&fit=crop"),
               ],
             ),
             // Bitenler
             ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                _buildFinishedLibraryItem("Suç ve Ceza", "F. Dostoyevski", "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"),
-                _buildFinishedLibraryItem("Küçük Prens", "A. Saint-Exupéry", "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"),
+                _buildFinishedLibraryItem(context, "Suç ve Ceza", "F. Dostoyevski", "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"),
+                _buildFinishedLibraryItem(context, "Küçük Prens", "A. Saint-Exupéry", "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"),
               ],
             ),
             // Alınanlar
             ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                _buildDownloadedLibraryItem("Simyacı", "Paulo Coelho", "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=300&auto=format&fit=crop"),
+                _buildDownloadedLibraryItem(context, "Simyacı", "Paulo Coelho", "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=300&auto=format&fit=crop"),
               ],
             ),
           ],
@@ -501,67 +622,82 @@ class MyLibrary extends StatelessWidget {
     );
   }
 
-  Widget _buildLibraryBookItem(String title, String author, double progress, String pageInfo, String imgUrl) {
-    return Card(
-      margin: const EdgeInsets.all(12),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            ClipRRect(borderRadius: BorderRadius.circular(6), child: Image.network(imgUrl, width: 45, height: 65, fit: BoxFit.cover)),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(author, style: const TextStyle(color: Colors.grey, fontSize: 12)),
-                  const SizedBox(height: 6),
-                  LinearProgressIndicator(value: progress, color: Colors.deepPurple, backgroundColor: Colors.grey.shade200),
-                  const SizedBox(height: 4),
-                  Text(pageInfo, style: const TextStyle(fontSize: 11, color: Colors.grey)),
-                ],
+  Widget _buildLibraryBookItem(BuildContext context, String title, String author, double progress, String pageInfo, String imgUrl) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetailPage(title: title, author: author, image: imgUrl)));
+      },
+      child: Card(
+        margin: const EdgeInsets.all(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            children: [
+              ClipRRect(borderRadius: BorderRadius.circular(6), child: Image.network(imgUrl, width: 45, height: 65, fit: BoxFit.cover)),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    Text(author, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    const SizedBox(height: 6),
+                    LinearProgressIndicator(value: progress, color: Colors.deepPurple, backgroundColor: Colors.grey.shade200),
+                    const SizedBox(height: 4),
+                    Text(pageInfo, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildFinishedLibraryItem(String title, String author, String imgUrl) {
-    return Card(
-      margin: const EdgeInsets.all(10),
-      child: ListTile(
-        leading: ClipRRect(borderRadius: BorderRadius.circular(4), child: Image.network(imgUrl, width: 40, height: 55, fit: BoxFit.cover)),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(author),
-        trailing: const Icon(Icons.check_circle_rounded, color: Colors.green),
+  Widget _buildFinishedLibraryItem(BuildContext context, String title, String author, String imgUrl) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetailPage(title: title, author: author, image: imgUrl)));
+      },
+      child: Card(
+        margin: const EdgeInsets.all(10),
+        child: ListTile(
+          leading: ClipRRect(borderRadius: BorderRadius.circular(4), child: Image.network(imgUrl, width: 40, height: 55, fit: BoxFit.cover)),
+          title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Text(author),
+          trailing: const Icon(Icons.check_circle_rounded, color: Colors.green),
+        ),
       ),
     );
   }
 
-  Widget _buildDownloadedLibraryItem(String title, String author, String imgUrl) {
-    return Card(
-      margin: const EdgeInsets.all(10),
-      child: ListTile(
-        leading: ClipRRect(borderRadius: BorderRadius.circular(4), child: Image.network(imgUrl, width: 40, height: 55, fit: BoxFit.cover)),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(author),
-        trailing: const Icon(Icons.cloud_done_rounded, color: Colors.blue),
+  Widget _buildDownloadedLibraryItem(BuildContext context, String title, String author, String imgUrl) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetailPage(title: title, author: author, image: imgUrl)));
+      },
+      child: Card(
+        margin: const EdgeInsets.all(10),
+        child: ListTile(
+          leading: ClipRRect(borderRadius: BorderRadius.circular(4), child: Image.network(imgUrl, width: 40, height: 55, fit: BoxFit.cover)),
+          title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Text(author),
+          trailing: const Icon(Icons.cloud_done_rounded, color: Colors.blue),
+        ),
       ),
     );
   }
 }
 
-// --- 6. GÜNCELLENDİ: SATICI PANELİ (MODERN MOR TASARIM) ---
+// --- 6. SATICI PANELİ (MODERN MOR TASARIM) ---
 class SellerDashboard extends StatelessWidget {
   const SellerDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3E5F5), // Çok açık soft mor arka plan
+      backgroundColor: const Color(0xFFF3E5F5),
       appBar: AppBar(
         title: const Text("Kütüphane Yönetimi", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         backgroundColor: Colors.deepPurple.shade800,
@@ -572,7 +708,6 @@ class SellerDashboard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Üst Karşılaşma Degrade Kartı
             Container(
               padding: const EdgeInsets.all(20),
               width: double.infinity,
@@ -590,8 +725,6 @@ class SellerDashboard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-
-            // Modern Mor Metrik Kartları
             Row(
               children: [
                 _buildModernPurpleCard("Toplam Ciro", "4.850 TL", Icons.wallet_rounded, Colors.purple.shade700),
@@ -605,13 +738,10 @@ class SellerDashboard extends StatelessWidget {
                 _buildModernPurpleCard("Tükenen Stok", "2 Kitap", Icons.gpp_maybe_rounded, Colors.red.shade700),
               ],
             ),
-
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
               child: Text("Son Satış ve Sipariş Logları", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
             ),
-
-            // Siparişler Listesi
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -667,13 +797,12 @@ class SellerDashboard extends StatelessWidget {
   }
 }
 
-// --- 7. YENİDEN TASARLANDI: SATICI STOK LİSTESİ (RESİMLİ & DETAYLI) ---
+// --- 7. SATICI STOK LİSTESİ ---
 class SellerInventory extends StatelessWidget {
   const SellerInventory({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Satıcının envanterindeki kitap listesi
     final List<Map<String, String>> inventoryBooks = [
       {"title": "Nutuk", "stock": "45", "price": "120 TL", "img": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"},
       {"title": "Suç ve Ceza", "stock": "12", "price": "85 TL", "img": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"},
@@ -715,7 +844,6 @@ class SellerInventory extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text("Birim Fiyat: ${item["price"]}", style: const TextStyle(color: Colors.grey, fontSize: 13)),
                         const SizedBox(height: 6),
-                        // Stok Durum Etiketi
                         Row(
                           children: [
                             Container(
@@ -759,7 +887,7 @@ class SellerInventory extends StatelessWidget {
   }
 }
 
-// --- 8. PROFİL SAYFASI ---
+// --- 8. GÜNCELLENDİ: PROFİL SAYFASI (MODERNLEŞTİRİLDİ) ---
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -771,33 +899,121 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Profil")),
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          const CircleAvatar(radius: 40, child: Icon(Icons.person, size: 40)),
-          const SizedBox(height: 10),
-          const Text("Elif Uysal", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          const Text("deneme12@gmail.com"),
-          const Divider(height: 40),
-          SwitchListTile(
-            title: const Text("Satıcı Modu"),
-            subtitle: const Text("Mağaza yönetim arayüzüne geçiş yapar"),
-            value: isSellerMode,
-            activeColor: Colors.indigo,
-            onChanged: (val) {
-              setState(() {
-                isSellerMode = val;
-              });
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c) => const MainNavigationHolder()), (r) => false);
-            },
+      backgroundColor: Colors.grey.shade50,
+      appBar: AppBar(
+        title: const Text("Profilim", style: TextStyle(fontWeight: FontWeight.bold)),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Üst Profil Alanı Kartı
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [Colors.deepPurple.shade800, Colors.deepPurple.shade500]),
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [BoxShadow(color: Colors.deepPurple.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5))],
+              ),
+              child: const Row(
+                children: [
+                  CircleAvatar(
+                    radius: 36,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(radius: 33, backgroundColor: Colors.deepPurple, child: Icon(Icons.person, size: 35, color: Colors.white)),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Elif Uysal", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                        SizedBox(height: 4),
+                        Text("deneme12@gmail.com", style: TextStyle(color: Colors.white70, fontSize: 13)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Okuma İstatistikleri Paneli
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildStatWidget("2", "Okunan"),
+                  _buildStatWidget("2", "Biten"),
+                  _buildStatWidget("1", "Alınan"),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+            const Divider(indent: 16, endIndent: 16),
+
+            // Ayarlar ve Mod Değişimi Listesi
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: [
+                  SwitchListTile(
+                    title: const Text("Satıcı Modu", style: TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: const Text("Mağaza yönetim arayüzüne geçiş yapar"),
+                    value: isSellerMode,
+                    activeColor: Colors.deepPurple,
+                    secondary: Icon(Icons.storefront_rounded, color: isSellerMode ? Colors.deepPurple : Colors.grey),
+                    onChanged: (val) {
+                      setState(() {
+                        isSellerMode = val;
+                      });
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c) => const MainNavigationHolder()), (r) => false);
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.favorite_rounded, color: Colors.redAccent),
+                    title: const Text("Sık Kullanılanlar", style: TextStyle(fontWeight: FontWeight.w500)),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.settings_rounded, color: Colors.blueGrey),
+                    title: const Text("Uygulama Ayarları", style: TextStyle(fontWeight: FontWeight.w500)),
+                    trailing: const Icon(Icons.chevron_right_rounded),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.logout_rounded, color: Colors.red),
+                    title: const Text("Çıkış Yap", style: TextStyle(fontWeight: FontWeight.w500, color: Colors.red)),
+                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => const LoginPage())),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatWidget(String value, String label) {
+    return Expanded(
+      child: Card(
+        elevation: 1,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Column(
+            children: [
+              Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+              const SizedBox(height: 2),
+              Text(label, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            ],
           ),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text("Çıkış Yap"),
-            onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => const LoginPage())),
-          ),
-        ],
+        ),
       ),
     );
   }
