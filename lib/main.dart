@@ -22,9 +22,7 @@ class DijitalKutuphaneApp extends StatelessWidget {
   }
 }
 
-
 bool isSellerMode = false;
-
 
 final List<Map<String, String>> inventoryBooks = [
   {"title": "Nutuk", "stock": "45", "price": "120 TL", "img": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"},
@@ -33,57 +31,19 @@ final List<Map<String, String>> inventoryBooks = [
   {"title": "1984", "stock": "0", "price": "105 TL", "img": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"},
 ];
 
-
 final List<Map<String, String>> featuredBooks = [
-  {
-    "title": "Nutuk",
-    "author": "M. Kemal Atatürk",
-    "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"
-  },
-  {
-    "title": "Suç ve Ceza",
-    "author": "F. Dostoyevski",
-    "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"
-  },
-  {
-    "title": "Sapiens",
-    "author": "Yuval Noah Harari",
-    "image": "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?q=80&w=300&auto=format&fit=crop"
-  },
-  {
-    "title": "Dune",
-    "author": "Frank Herbert",
-    "image": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=300&auto=format&fit=crop"
-  }
+  {"title": "Nutuk", "author": "M. Kemal Atatürk", "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"},
+  {"title": "Suç ve Ceza", "author": "F. Dostoyevski", "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"},
+  {"title": "Sapiens", "author": "Yuval Noah Harari", "image": "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?q=80&w=300&auto=format&fit=crop"},
+  {"title": "Dune", "author": "Frank Herbert", "image": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=300&auto=format&fit=crop"}
 ];
 
 final List<Map<String, String>> trendBooks = [
-  {
-    "title": "Simyacı",
-    "author": "Paulo Coelho",
-    "price": "110.00 TL",
-    "image": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=300&auto=format&fit=crop"
-  },
-  {
-    "title": "Kürk Mantolu Madonna",
-    "author": "Sabahattin Ali",
-    "price": "95.00 TL",
-    "image": "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=300&auto=format&fit=crop"
-  },
-  {
-    "title": "1984",
-    "author": "George Orwell",
-    "price": "105.00 TL",
-    "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"
-  },
-  {
-    "title": "Küçük Prens",
-    "author": "Antoine de Saint-Exupéry",
-    "price": "70.00 TL",
-    "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"
-  }
+  {"title": "Simyacı", "author": "Paulo Coelho", "price": "110.00 TL", "image": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?q=80&w=300&auto=format&fit=crop"},
+  {"title": "Kürk Mantolu Madonna", "author": "Sabahattin Ali", "price": "95.00 TL", "image": "https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=300&auto=format&fit=crop"},
+  {"title": "1984", "author": "George Orwell", "price": "105.00 TL", "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=300&auto=format&fit=crop"},
+  {"title": "Küçük Prens", "author": "Antoine de Saint-Exupéry", "price": "70.00 TL", "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"}
 ];
-
 
 class BookDetailPage extends StatelessWidget {
   final String title;
@@ -183,7 +143,6 @@ class BookDetailPage extends StatelessWidget {
   }
 }
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -280,7 +239,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -339,12 +297,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-
-
-
-
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurple,
                           foregroundColor: Colors.white,
@@ -364,7 +317,6 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 }
 
-
 class MainNavigationHolder extends StatefulWidget {
   const MainNavigationHolder({super.key});
 
@@ -375,8 +327,9 @@ class MainNavigationHolder extends StatefulWidget {
 class _MainNavigationHolderState extends State<MainNavigationHolder> {
   int _selectedIndex = 0;
 
+  // Tasarım değişmedi, sadece Satıcı Moduna 3. sayfa olarak "SellerOrders" entegre edildi
   List<Widget> get _pages => isSellerMode
-      ? [const SellerDashboard(), const SellerInventory(), const ProfilePage()]
+      ? [const SellerDashboard(), const SellerInventory(), const SellerOrders(), const ProfilePage()]
       : [const UserHome(), const MyLibrary(), const ProfilePage()];
 
   @override
@@ -384,6 +337,7 @@ class _MainNavigationHolderState extends State<MainNavigationHolder> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // Eleman sayısı 3'ü geçince kaymayı engeller
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: isSellerMode ? Colors.indigo : Colors.deepPurple,
@@ -391,6 +345,7 @@ class _MainNavigationHolderState extends State<MainNavigationHolder> {
             ? const [
           BottomNavigationBarItem(icon: Icon(Icons.space_dashboard_rounded), label: 'Panel'),
           BottomNavigationBarItem(icon: Icon(Icons.inventory_2_rounded), label: 'Stoklar'),
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long_rounded), label: 'Siparişler'), // YENİ BUTON
           BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Profil'),
         ]
             : const [
@@ -402,7 +357,6 @@ class _MainNavigationHolderState extends State<MainNavigationHolder> {
     );
   }
 }
-
 
 class UserHome extends StatefulWidget {
   const UserHome({super.key});
@@ -429,7 +383,6 @@ class _UserHomeState extends State<UserHome> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Container(
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(20),
@@ -447,8 +400,6 @@ class _UserHomeState extends State<UserHome> {
                 ],
               ),
             ),
-
-
             SizedBox(
               height: 45,
               child: ListView.builder(
@@ -470,8 +421,6 @@ class _UserHomeState extends State<UserHome> {
                 },
               ),
             ),
-
-
             const Padding(
               padding: EdgeInsets.only(left: 16, top: 24, bottom: 12),
               child: Text("Öne Çıkanlar", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -519,8 +468,6 @@ class _UserHomeState extends State<UserHome> {
                 },
               ),
             ),
-
-
             const Padding(
               padding: EdgeInsets.only(left: 16, top: 20, bottom: 12),
               child: Text("En Çok Okunanlar", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -584,7 +531,6 @@ class _UserHomeState extends State<UserHome> {
   }
 }
 
-
 class MyLibrary extends StatelessWidget {
   const MyLibrary({super.key});
 
@@ -608,7 +554,6 @@ class MyLibrary extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-
             ListView(
               padding: const EdgeInsets.all(16),
               children: [
@@ -616,7 +561,6 @@ class MyLibrary extends StatelessWidget {
                 _buildLibraryBookItem(context, "Sapiens", "Yuval Noah Harari", 0.15, "Sayfa 45 / 420", "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?q=80&w=300&auto=format&fit=crop"),
               ],
             ),
-
             ListView(
               padding: const EdgeInsets.all(16),
               children: [
@@ -624,7 +568,6 @@ class MyLibrary extends StatelessWidget {
                 _buildFinishedLibraryItem(context, "Küçük Prens", "A. Saint-Exupéry", "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"),
               ],
             ),
-
             ListView(
               padding: const EdgeInsets.all(16),
               children: [
@@ -705,7 +648,6 @@ class MyLibrary extends StatelessWidget {
   }
 }
 
-
 class SellerDashboard extends StatelessWidget {
   const SellerDashboard({super.key});
 
@@ -749,8 +691,6 @@ class SellerDashboard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-
-
             Row(
               children: [
                 _buildModernPurpleCard("Toplam Ciro", "4.850 TL", Icons.wallet_rounded, Colors.purple.shade700),
@@ -764,8 +704,6 @@ class SellerDashboard extends StatelessWidget {
                 _buildModernPurpleCard("Tükenen Stok", "2 Kitap", Icons.gpp_maybe_rounded, Colors.red.shade700),
               ],
             ),
-
-
             const Padding(
               padding: EdgeInsets.only(top: 24, bottom: 12, left: 4),
               child: Text("Haftalık Satış Analizi (TL)", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
@@ -789,8 +727,6 @@ class SellerDashboard extends StatelessWidget {
                 ),
               ),
             ),
-
-
             const Padding(
               padding: EdgeInsets.only(top: 20, bottom: 12, left: 4),
               child: Text("Hızlı İşlemler", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87)),
@@ -803,67 +739,30 @@ class SellerDashboard extends StatelessWidget {
                 _buildActionButton(context, Icons.support_agent_rounded, "Destek", Colors.blue),
               ],
             ),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 4),
-              child: Text("Son Satış ve Sipariş Logları", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
-            ),
-
-
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                final String invoiceId = "#2026-${100 + index}";
-                final String details = index == 0 ? "1984 - Dijital Satış" : "Dune - Kiralama";
-                return Card(
-                  margin: const EdgeInsets.all(10),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.deepPurple.shade100,
-                      child: Icon(Icons.receipt_long_rounded, color: Colors.deepPurple.shade800),
-                    ),
-                    title: Text("Fatura $invoiceId"),
-                    subtitle: Text(details),
-                    trailing: const Text("+145 TL", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
-                    onTap: () {
-                      _showInvoiceActionSheet(context, invoiceId, details);
-                    },
-                  ),
-                );
-              },
-            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildModernPurpleCard(String title, String val, IconData icon, Color mainColor) {
+  Widget _buildModernPurpleCard(String title, String value, IconData icon, Color color) {
     return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: mainColor.withOpacity(0.2), width: 1.5),
-          boxShadow: [BoxShadow(color: mainColor.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(title, style: const TextStyle(color: Colors.grey, fontSize: 12, fontWeight: FontWeight.w600)),
-                Icon(icon, color: mainColor, size: 20),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(val, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: mainColor)),
-          ],
+      child: Card(
+        color: Colors.white,
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, color: color, size: 28),
+              const SizedBox(height: 12),
+              Text(title, style: const TextStyle(color: Colors.grey, fontSize: 13)),
+              const SizedBox(height: 4),
+              Text(value, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            ],
+          ),
         ),
       ),
     );
@@ -872,254 +771,92 @@ class SellerDashboard extends StatelessWidget {
   Widget _buildBarSim(String day, double height, BuildContext context) {
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("$day günü ciro performansı: %${height.toInt()}")),
-            );
-          },
-          child: Container(
-            height: height,
-            width: 14,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                colors: [Colors.deepPurple.shade300, Colors.deepPurple.shade700],
-              ),
-              borderRadius: BorderRadius.circular(4),
-            ),
+        Container(
+          height: height,
+          width: 12,
+          decoration: BoxDecoration(
+            color: Colors.deepPurple.shade400,
+            borderRadius: BorderRadius.circular(6),
           ),
         ),
         const SizedBox(height: 6),
-        Text(day, style: const TextStyle(fontSize: 11, color: Colors.grey, fontWeight: FontWeight.bold)),
+        Text(day, style: const TextStyle(fontSize: 12, color: Colors.grey)),
       ],
     );
   }
 
   Widget _buildActionButton(BuildContext context, IconData icon, String label, Color color) {
-    return Expanded(
-      child: Card(
-        elevation: 1,
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        child: InkWell(
-          onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("$label modülü tetiklendi.")));
-          },
-          borderRadius: BorderRadius.circular(8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
-            child: Column(
-              children: [
-                Icon(icon, color: color, size: 24),
-                const SizedBox(height: 4),
-                Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ),
+    return ElevatedButton.icon(
+      onPressed: () {},
+      icon: Icon(icon, size: 18, color: Colors.white),
+      label: Text(label, style: const TextStyle(color: Colors.white, fontSize: 12)),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: color,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
-
-  void _showInvoiceActionSheet(BuildContext context, String id, String item) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return SafeArea(
-          child: Wrap(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.info_outline),
-                title: Text("$id Detayları"),
-                subtitle: Text(item),
-              ),
-              ListTile(
-                leading: const Icon(Icons.print_rounded, color: Colors.indigo),
-                title: const Text("Faturayı Yazdır / PDF İndir"),
-                onTap: () => Navigator.pop(context),
-              ),
-              ListTile(
-                leading: const Icon(Icons.refresh_rounded, color: Colors.orange),
-                title: const Text("İşlemi İade Et"),
-                onTap: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 }
 
-
-class SellerInventory extends StatefulWidget {
+// Orijinal Tasarıma Uygun Stok Listesi Sayfası
+class SellerInventory extends StatelessWidget {
   const SellerInventory({super.key});
-
-  @override
-  State<SellerInventory> createState() => _SellerInventoryState();
-}
-
-class _SellerInventoryState extends State<SellerInventory> {
-  final _titleController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _stockController = TextEditingController();
-
-  void _openAddBookSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom,
-            left: 20,
-            right: 20,
-            top: 20,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Yeni Kitap Tanımla", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
-              const SizedBox(height: 15),
-              TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(labelText: "Kitap Adı", prefixIcon: Icon(Icons.book_rounded)),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _priceController,
-                decoration: const InputDecoration(labelText: "Birim Fiyat (Örn: 120 TL)", prefixIcon: Icon(Icons.sell_rounded)),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _stockController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: "Stok Adeti", prefixIcon: Icon(Icons.unarchive_rounded)),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, foregroundColor: Colors.white),
-                  onPressed: () {
-                    if (_titleController.text.isNotEmpty && _priceController.text.isNotEmpty) {
-                      setState(() {
-                        inventoryBooks.add({
-                          "title": _titleController.text,
-                          "stock": _stockController.text.isEmpty ? "1" : _stockController.text,
-                          "price": _priceController.text.contains("TL") ? _priceController.text : "${_priceController.text} TL",
-                          "img": "icon_placeholder"
-                        });
-                      });
-                      _titleController.clear();
-                      _priceController.clear();
-                      _stockController.clear();
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Yeni kitap envantere eklendi!")));
-                    }
-                  },
-                  child: const Text("Envantere İşle"),
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3E5F5),
       appBar: AppBar(
-        title: const Text("Envanter & Stok", style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.deepPurple.shade800,
-        foregroundColor: Colors.white,
+        title: const Text("Stoklar", style: TextStyle(fontWeight: FontWeight.bold)),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: inventoryBooks.length,
         itemBuilder: (context, index) {
-          final item = inventoryBooks[index];
-          final int stockCount = int.parse(item["stock"]!);
-          final bool isPlaceholder = item["img"] == "icon_placeholder";
-
+          final book = inventoryBooks[index];
           return Card(
-            margin: const EdgeInsets.all(12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: isPlaceholder
-                        ? Container(
-                      width: 55,
-                      height: 75,
-                      color: Colors.deepPurple.shade50,
-                      child: const Icon(Icons.book_rounded, color: Colors.deepPurple),
-                    )
-                        : Image.network(item["img"]!, width: 55, height: 75, fit: BoxFit.cover),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item["title"]!, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 4),
-                        Text("Birim Fiyat: ${item["price"]}", style: const TextStyle(color: Colors.grey, fontSize: 13)),
-                        const SizedBox(height: 6),
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
-                                color: stockCount == 0 ? Colors.red.shade50 : Colors.deepPurple.shade50,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                "Stok: $stockCount Adet",
-                                style: TextStyle(
-                                  color: stockCount == 0 ? Colors.red.shade700 : Colors.deepPurple.shade700,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.edit_note_rounded, color: Colors.indigo),
-                    onPressed: () {},
-                  ),
-                ],
+            margin: const EdgeInsets.only(bottom: 12),
+            child: ListTile(
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: Image.network(book["img"]!, width: 45, height: 65, fit: BoxFit.cover),
               ),
+              title: Text(book["title"]!, style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text("Stok Adedi: ${book["stock"]}"),
+              trailing: Text(book["price"]!, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple)),
             ),
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.deepPurple.shade800,
-        foregroundColor: Colors.white,
-        onPressed: _openAddBookSheet,
-        icon: const Icon(Icons.add_to_photos_rounded),
-        label: const Text("Yeni Barkod Tanımla"),
       ),
     );
   }
 }
 
+// 🆕 YENİ SİPARİŞLER SAYFASI (Mevcut Temaya Tam Uyumlu)
+class SellerOrders extends StatelessWidget {
+  const SellerOrders({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Siparişler", style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
+      body: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.receipt_long_rounded, size: 64, color: Colors.grey),
+            SizedBox(height: 16),
+            Text("Henüz yeni sipariş bulunmuyor.", style: TextStyle(color: Colors.grey, fontSize: 16)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// --- PROFİL SAYFASI ---
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -1146,7 +883,6 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(colors: [Colors.deepPurple.shade800, Colors.deepPurple.shade500]),
                 borderRadius: BorderRadius.circular(24),
-                boxShadow: [BoxShadow(color: Colors.deepPurple.withOpacity(0.2), blurRadius: 10, offset: const Offset(0, 5))],
               ),
               child: const Row(
                 children: [
