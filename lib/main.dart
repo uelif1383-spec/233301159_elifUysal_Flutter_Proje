@@ -4,20 +4,39 @@ void main() {
   runApp(const DijitalKutuphaneApp());
 }
 
+final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.light);
+
 class DijitalKutuphaneApp extends StatelessWidget {
   const DijitalKutuphaneApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Dijital Kütüphane',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        useMaterial3: true,
-        fontFamily: 'Roboto',
-      ),
-      home: const LoginPage(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeNotifier,
+      builder: (_, ThemeMode currentMode, __) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Dijital Kütüphane',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple,
+              brightness: Brightness.light,
+            ),
+            useMaterial3: true,
+            fontFamily: 'Roboto',
+          ),
+          darkTheme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple,
+              brightness: Brightness.dark,
+            ),
+            useMaterial3: true,
+            fontFamily: 'Roboto',
+          ),
+          themeMode: currentMode,
+          home: const LoginPage(),
+        );
+      },
     );
   }
 }
@@ -45,7 +64,149 @@ final List<Map<String, String>> trendBooks = [
   {"title": "Küçük Prens", "author": "Antoine de Saint-Exupéry", "price": "70.00 TL", "image": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=300&auto=format&fit=crop"}
 ];
 
-class BookDetailPage extends StatelessWidget {
+final List<Map<String, dynamic>> cartItems = [];
+
+class CartPage extends StatefulWidget {
+  const CartPage({super.key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  double get totalAmount {
+    double total = 0;
+    for (var item in cartItems) {
+      String priceStr =
+          item["price"].toString().replaceAll(" TL", "").replaceAll(".", "");
+      total += double.tryParse(priceStr) ?? 0;
+    }
+    return total;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Sepetim",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
+      body: cartItems.isEmpty
+          ? const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.shopping_cart_outlined,
+                      size: 80, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text("Sepetiniz boş.",
+                      style: TextStyle(fontSize: 18, color: Colors.grey)),
+                ],
+              ),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: cartItems.length,
+                    itemBuilder: (context, index) {
+                      final item = cartItems[index];
+                      return Card(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        child: ListTile(
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: Image.network(item["image"],
+                                width: 40, height: 60, fit: BoxFit.cover),
+                          ),
+                          title: Text(item["title"],
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Text(item["price"]),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete_outline,
+                                color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                cartItems.removeAt(index);
+                              });
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(24)),
+                    boxShadow: const [
+                      BoxShadow(color: Colors.black12, blurRadius: 10)
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Toplam Tutar",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text("${totalAmount.toStringAsFixed(2)} TL",
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepPurple)),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: const Text("Ödeme Başarılı"),
+                                content: const Text(
+                                    "Kitaplarınız kütüphanenize eklendi!"),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        cartItems.clear();
+                                      });
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Tamam"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepPurple,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          child: const Text("Ödemeyi Tamamla"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+    );
+  }
+}
+
+class BookDetailPage extends StatefulWidget {
   final String title;
   final String author;
   final String image;
@@ -60,10 +221,23 @@ class BookDetailPage extends StatelessWidget {
   });
 
   @override
+  State<BookDetailPage> createState() => _BookDetailPageState();
+}
+
+class _BookDetailPageState extends State<BookDetailPage> {
+  int _userRating = 0;
+  final TextEditingController _commentController = TextEditingController();
+  final List<Map<String, String>> _comments = [
+    {"user": "Ahmet Y.", "text": "Harika bir kitap, herkese tavsiye ederim!"},
+    {"user": "Ayşe K.", "text": "Derinliği olan bir eser, çok etkilendim."},
+  ];
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(widget.title,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -74,128 +248,173 @@ class BookDetailPage extends StatelessWidget {
             Center(
               child: Card(
                 elevation: 8,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
-                  child: image.startsWith('http')
-                      ? Image.network(image, height: 280, width: 190, fit: BoxFit.cover)
+                  child: widget.image.startsWith('http')
+                      ? Image.network(
+                          widget.image,
+                          height: 280,
+                          width: 190,
+                          fit: BoxFit.cover,
+                        )
                       : Container(
-                    height: 280,
-                    width: 190,
-                    color: Colors.deepPurple.shade100,
-                    child: const Icon(Icons.book_rounded, size: 80, color: Colors.deepPurple),
-                  ),
+                          height: 280,
+                          width: 190,
+                          color: Colors.deepPurple.shade100,
+                          child: const Icon(
+                            Icons.book_rounded,
+                            size: 80,
+                            color: Colors.deepPurple,
+                          ),
+                        ),
                 ),
               ),
             ),
             const SizedBox(height: 20),
-            Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+            Text(
+              widget.title,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 6),
-            Text(author, style: const TextStyle(fontSize: 16, color: Colors.grey), textAlign: TextAlign.center),
+            Text(
+              widget.author,
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 15),
-            if (price != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (index) {
+                return IconButton(
+                  icon: Icon(
+                    index < _userRating ? Icons.star : Icons.star_border,
+                    color: Colors.amber,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _userRating = index + 1;
+                    });
+                  },
+                );
+              }),
+            ),
+            if (widget.price != null)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(color: Colors.deepPurple.shade50, borderRadius: BorderRadius.circular(20)),
-                child: Text(price!, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  widget.price!,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple,
+                  ),
+                ),
               ),
             const SizedBox(height: 25),
             const Divider(),
             const SizedBox(height: 15),
             const Align(
               alignment: Alignment.centerLeft,
-              child: Text("Kitap Açıklaması", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              child: Text(
+                "Yorumlar",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 10),
-            Text(
-              "Bu eser, kütüphanemizin en seçkin parçalarından biridir. Dijital yayın formatında hemen okumaya başlayabilir veya kiralama seçeneklerini değerlendirebilirsiniz. Keyifli okumalar dileriz.",
-              style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.5),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _comments.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const CircleAvatar(child: Icon(Icons.person)),
+                  title: Text(_comments[index]["user"]!,
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  subtitle: Text(_comments[index]["text"]!),
+                );
+              },
             ),
-
-            // 🆕 YENİ EKLENEN BÖLÜM: Okuyucu Yorumları ve Değerlendirmeler
-            const SizedBox(height: 25),
-            const Divider(),
-            const SizedBox(height: 15),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Okuyucu Yorumları", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Row(
-                    children: [
-                      Icon(Icons.star_rounded, color: Colors.amber, size: 20),
-                      SizedBox(width: 4),
-                      Text("4.8", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
-                ],
+            const SizedBox(height: 10),
+            TextField(
+              controller: _commentController,
+              decoration: InputDecoration(
+                hintText: "Yorumunuzu yazın...",
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.send, color: Colors.deepPurple),
+                  onPressed: () {
+                    if (_commentController.text.isNotEmpty) {
+                      setState(() {
+                        _comments.insert(0, {
+                          "user": "Siz",
+                          "text": _commentController.text,
+                        });
+                        _commentController.clear();
+                      });
+                    }
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
             ),
-            const SizedBox(height: 12),
-            _buildCommentItem("Ahmet Y.", "Harika bir basım, dijital arayüzde okumak çok akıcı.", 5),
-            _buildCommentItem("Zeynep K.", "Her kitaplıkta bulunması gereken başucu eserlerinden biri.", 4),
-
             const SizedBox(height: 35),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.bookmark_add_outlined),
-                    label: const Text("Listeme Ekle"),
-                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Favorilere eklendi!")),
+                      );
+                    },
+                    icon: const Icon(Icons.favorite_border),
+                    label: const Text("Favori"),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (widget.price != null) {
+                        setState(() {
+                          cartItems.add({
+                            "title": widget.title,
+                            "price": widget.price,
+                            "image": widget.image,
+                          });
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Sepete eklendi!")),
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurple,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: Text(price != null ? "Satın Al" : "Okumaya Başla"),
+                    child: Text(
+                        widget.price != null ? "Sepete Ekle" : "Okumaya Başla"),
                   ),
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCommentItem(String name, String comment, int rating) {
-    return Card(
-      elevation: 0,
-      color: Colors.grey.shade100,
-      margin: const EdgeInsets.only(bottom: 10),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                Row(
-                  children: List.generate(
-                    5,
-                        (index) => Icon(
-                      Icons.star_rounded,
-                      color: index < rating ? Colors.amber : Colors.grey.shade400,
-                      size: 16,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text(comment, style: TextStyle(fontSize: 13, color: Colors.grey.shade800)),
           ],
         ),
       ),
@@ -431,10 +650,20 @@ class _UserHomeState extends State<UserHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text("Dijital Kitaplığım", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text("Dijital Kitaplığım",
+            style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart_outlined),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CartPage()),
+              );
+            },
+          ),
           IconButton(icon: const Icon(Icons.search_rounded), onPressed: () {}),
         ],
       ),
@@ -926,7 +1155,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: const Text("Profilim", style: TextStyle(fontWeight: FontWeight.bold)),
         elevation: 0,
@@ -980,6 +1209,30 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
                 children: [
+                  SwitchListTile(
+                    title: const Text(
+                      "Karanlık Mod",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: const Text("Uygulama temasını değiştirir"),
+                    value: themeNotifier.value == ThemeMode.dark,
+                    activeColor: Colors.deepPurple,
+                    secondary: Icon(
+                      themeNotifier.value == ThemeMode.dark
+                          ? Icons.dark_mode_rounded
+                          : Icons.light_mode_rounded,
+                      color: themeNotifier.value == ThemeMode.dark
+                          ? Colors.amber
+                          : Colors.grey,
+                    ),
+                    onChanged: (val) {
+                      setState(() {
+                        themeNotifier.value = val
+                            ? ThemeMode.dark
+                            : ThemeMode.light;
+                      });
+                    },
+                  ),
                   SwitchListTile(
                     title: const Text("Satıcı Modu", style: TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: const Text("Mağaza yönetim arayüzüne geçiş yapar"),
