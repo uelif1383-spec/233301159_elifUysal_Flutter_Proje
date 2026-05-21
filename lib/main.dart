@@ -765,7 +765,7 @@ class SellerDashboard extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.only(top: 24, bottom: 12, left: 4),
-              child: Text("Haftalık Satış Analizi (TL)", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
+              child: Text("Haftalık Satış Analizi (TL)   ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87)),
             ),
             Card(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
