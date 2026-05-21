@@ -166,6 +166,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Kayıt oluşturuluyor...')),
                       );
+                    }else if(_formKey==null){
+
                     }
                   },
                   style: ElevatedButton.styleFrom(

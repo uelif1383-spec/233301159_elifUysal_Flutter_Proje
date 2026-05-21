@@ -340,10 +340,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Kayıt Başarılı! Giriş yapabilirsiniz.')),
-                          );
-                          Navigator.pop(context);
+
+
+
+
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.deepPurple,
