@@ -160,15 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 // Kayıt Ol Butonu
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Buradan backend'e (örn: SifreHash oluşturarak) veri göndereceksin
-                      // Veritabanındaki KayitTarihi ve AktifMi (default true/1) alanlarını da unutma.
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Kayıt oluşturuluyor...')),
-                      );
-                    }else if(_formKey==null){
 
-                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,

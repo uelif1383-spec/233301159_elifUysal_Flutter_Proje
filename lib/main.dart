@@ -111,6 +111,31 @@ class BookDetailPage extends StatelessWidget {
               "Bu eser, kütüphanemizin en seçkin parçalarından biridir. Dijital yayın formatında hemen okumaya başlayabilir veya kiralama seçeneklerini değerlendirebilirsiniz. Keyifli okumalar dileriz.",
               style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.5),
             ),
+
+            // 🆕 YENİ EKLENEN BÖLÜM: Okuyucu Yorumları ve Değerlendirmeler
+            const SizedBox(height: 25),
+            const Divider(),
+            const SizedBox(height: 15),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Okuyucu Yorumları", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Row(
+                    children: [
+                      Icon(Icons.star_rounded, color: Colors.amber, size: 20),
+                      SizedBox(width: 4),
+                      Text("4.8", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            _buildCommentItem("Ahmet Y.", "Harika bir basım, dijital arayüzde okumak çok akıcı.", 5),
+            _buildCommentItem("Zeynep K.", "Her kitaplıkta bulunması gereken başucu eserlerinden biri.", 4),
+
             const SizedBox(height: 35),
             Row(
               children: [
@@ -136,6 +161,41 @@ class BookDetailPage extends StatelessWidget {
                 ),
               ],
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCommentItem(String name, String comment, int rating) {
+    return Card(
+      elevation: 0,
+      color: Colors.grey.shade100,
+      margin: const EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                Row(
+                  children: List.generate(
+                    5,
+                        (index) => Icon(
+                      Icons.star_rounded,
+                      color: index < rating ? Colors.amber : Colors.grey.shade400,
+                      size: 16,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(comment, style: TextStyle(fontSize: 13, color: Colors.grey.shade800)),
           ],
         ),
       ),
@@ -327,7 +387,6 @@ class MainNavigationHolder extends StatefulWidget {
 class _MainNavigationHolderState extends State<MainNavigationHolder> {
   int _selectedIndex = 0;
 
-  // Tasarım değişmedi, sadece Satıcı Moduna 3. sayfa olarak "SellerOrders" entegre edildi
   List<Widget> get _pages => isSellerMode
       ? [const SellerDashboard(), const SellerInventory(), const SellerOrders(), const ProfilePage()]
       : [const UserHome(), const MyLibrary(), const ProfilePage()];
@@ -337,7 +396,7 @@ class _MainNavigationHolderState extends State<MainNavigationHolder> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Eleman sayısı 3'ü geçince kaymayı engeller
+        type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: isSellerMode ? Colors.indigo : Colors.deepPurple,
@@ -345,7 +404,7 @@ class _MainNavigationHolderState extends State<MainNavigationHolder> {
             ? const [
           BottomNavigationBarItem(icon: Icon(Icons.space_dashboard_rounded), label: 'Panel'),
           BottomNavigationBarItem(icon: Icon(Icons.inventory_2_rounded), label: 'Stoklar'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long_rounded), label: 'Siparişler'), // YENİ BUTON
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long_rounded), label: 'Siparişler'),
           BottomNavigationBarItem(icon: Icon(Icons.person_rounded), label: 'Profil'),
         ]
             : const [
@@ -394,7 +453,7 @@ class _UserHomeState extends State<UserHome> {
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Hoş geldin, Elif 👋", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text("Hoş geldin 👋", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 5),
                   Text("Bugün yeni dünyalar keşfetmeye ne dersin?", style: TextStyle(color: Colors.white70, fontSize: 14)),
                 ],
@@ -799,7 +858,6 @@ class SellerDashboard extends StatelessWidget {
   }
 }
 
-// Orijinal Tasarıma Uygun Stok Listesi Sayfası
 class SellerInventory extends StatelessWidget {
   const SellerInventory({super.key});
 
@@ -832,7 +890,6 @@ class SellerInventory extends StatelessWidget {
   }
 }
 
-// 🆕 YENİ SİPARİŞLER SAYFASI (Mevcut Temaya Tam Uyumlu)
 class SellerOrders extends StatelessWidget {
   const SellerOrders({super.key});
 
@@ -855,6 +912,7 @@ class SellerOrders extends StatelessWidget {
     );
   }
 }
+
 
 // --- PROFİL SAYFASI ---
 class ProfilePage extends StatefulWidget {
