@@ -1,16 +1,59 @@
-# dijital_kutuphane
+# Dijital Kütüphane
 
-A new Flutter project.
+## Öğrenci Bilgileri
+- Ad Soyad: Elif Uysal
+- Öğrenci No: 233301159
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Proje Açıklaması
 
-A few resources to get you started if this is your first Flutter project:
+Dijital Kütüphane, Flutter kullanılarak geliştirilmiş bir kütüphane uygulamasıdır. Kullanıcılar uygulama üzerinden kayıt olabilir, giriş yapabilir, kitapları görüntüleyebilir ve profil ekranını kullanabilir. Uygulamada Firebase Authentication ile kullanıcı doğrulama işlemleri yapılmış, Cloud Firestore ile kullanıcı ve log verileri saklanmıştır.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Projede ayrıca satıcı modu, karanlık mod, oturum devamlılığı ve çıkış yapma gibi özellikler bulunmaktadır.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Kullanılan Teknolojiler
+- Flutter
+- Dart
+- Firebase Authentication
+- Cloud Firestore
+
+
+## Uygulama Özellikleri
+- Kullanıcı kayıt olma
+- Kullanıcı giriş yapma
+- Oturum devamlılığı
+- Kullanıcı çıkış yapma
+- Profil ekranı
+- Kitap listeleme
+- Kitap detay ekranı
+- Satıcı modu
+- Log kayıt sistemi
+
+
+## Test Hesapları
+
+### Kullanıcı Hesabı
+- E-posta: deneme12@gmail.com
+- Şifre: mobil12
+
+### Yeni Kullanıcı
+Uygulama üzerinden yeni kullanıcı kaydı oluşturulabilir.
+
+
+## Kullanılan Paketler
+- firebase_core
+- firebase_auth
+- cloud_firestore
+
+
+## Uygulama Görselleri
+
+### Giriş Ekranı
+![Giriş Ekranı](screenshots/login.png)
+
+### Ana Sayfa
+![Ana Sayfa](screenshots/anasayfa.png)
+
+### Profil Ekranı
+![Profil Ekranı](screenshots/profil.png)
