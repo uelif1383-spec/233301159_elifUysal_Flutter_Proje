@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "13247595433",
+    "project_id": "flutterfinalproje",
+    "storage_bucket": "flutterfinalproje.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13247595433:android:985f0261ef2ec9e1b3bab8",
+        "android_client_info": {
+          "package_name": "com.example.dijital_kutuphane"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvWiw_zXzdS4opgrY5vYrZdPSLzwE8ZCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
