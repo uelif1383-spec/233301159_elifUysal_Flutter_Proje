@@ -49,11 +49,8 @@ Uygulama üzerinden yeni kullanıcı kaydı oluşturulabilir.
 
 ## Uygulama Görselleri
 
-### Giriş Ekranı
-![Giriş Ekranı](screenshots/login.png)
+![Giriş Ekranı](lib/screenshots/login.png)
 
-### Ana Sayfa
-![Ana Sayfa](screenshots/anasayfa.png)
+![Ana Sayfa](lib/screenshots/anasayfa.png)
 
-### Profil Ekranı
-![Profil Ekranı](screenshots/profil.png)
+![Profil Ekranı](lib/screenshots/profil.png)
